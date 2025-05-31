@@ -11,13 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterShop.Goods.Infrastruct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterShop.Goods.Presentation", "WaterShop.Goods.Presentation\WaterShop.Goods.Presentation.csproj", "{5099247C-7360-4442-8B0A-F002CE133CF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterShop.Goods.Test", "WaterShop.Goods.Test\WaterShop.Goods.Test.csproj", "{10B8655B-9DCE-467F-B28C-F94DBEB6A099}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9E1CB5C3-1A49-4B65-91BF-0718D0E828FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,5 +35,15 @@ Global
 		{5099247C-7360-4442-8B0A-F002CE133CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5099247C-7360-4442-8B0A-F002CE133CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5099247C-7360-4442-8B0A-F002CE133CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10B8655B-9DCE-467F-B28C-F94DBEB6A099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B8655B-9DCE-467F-B28C-F94DBEB6A099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B8655B-9DCE-467F-B28C-F94DBEB6A099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10B8655B-9DCE-467F-B28C-F94DBEB6A099}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1160BD3D-FD97-4ACB-A3FB-4C2C15A1B42D}
 	EndGlobalSection
 EndGlobal
