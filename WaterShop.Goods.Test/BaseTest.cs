@@ -87,8 +87,8 @@ public abstract class BaseTest
         for (int index = 0; index < 100; index++)
         {
 
-            ProductBrand brand = brands[rand.Next(0, 2)];
-            ProductType type = types[rand.Next(0, 2)];
+            ProductBrand brand = brands[rand.Next(0, 3)];
+            ProductType type = types[rand.Next(0, 3)];
 
 
             if (index % 10 == 0 || index == 0)

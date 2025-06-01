@@ -3,26 +3,24 @@ using WaterShop.Goods.Domain.Entities;
 
 namespace WaterShop.Goods.Domain.Mappers;
 
-public class ProductMapper
+public static class ProductMapper
 {
-    public static ProductDTO? ToDTO(Product? product)
+    public static ProductDto? ToDto(Product? product)
     {
         if (product is null) return null;
-        return new ProductDTO()
+        return new ProductDto()
         {
             Identity = product.Identity,
             Name = product.Name.Value,
             CreateAt = product.Batch.CreateAt,
             BatchNumber = product.Batch.Value,
-            Brand = product.Brand.Value
+            Brand = product.Brand.Value,
+            Type = product.Type.Value,
         };
     }
 
-    public static IEnumerable<ProductDTO> ToDTO(IEnumerable<Product> products)
+    public static IEnumerable<ProductDto> ToDto(IEnumerable<Product> products)
     {
-        foreach (var product in products)
-        {
-            yield return ToDTO(product)!;
-        }
+        return products.Select(product => ToDto(product)!);
     }
 }

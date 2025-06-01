@@ -1,4 +1,6 @@
-﻿namespace WaterShop.Goods.Domain.Primitives;
+﻿using WaterShop.Goods.Domain.Primitives.Filters;
+
+namespace WaterShop.Goods.Domain.Primitives;
 
 public class PageableData<TEntity>
 where TEntity : class
@@ -45,9 +47,11 @@ where TEntity : class
 
     public IEnumerable<TEntity> Data { get; set; }
 
+    public Filter? Filter { get; set; }
+
     public int GetSkipped() => (Page - 1) * PageSize;
 
-    public void NormalizePage()
+    private void NormalizePage()
     {
         if (Total > 0 && PageSize > 0 && Page > 0)
         {

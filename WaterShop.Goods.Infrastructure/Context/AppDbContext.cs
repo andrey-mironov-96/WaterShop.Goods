@@ -11,6 +11,7 @@ namespace WaterShop.Goods.Infrastructure.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBatch> ProductBatches { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
+        public DbSet<ProductType> Types { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

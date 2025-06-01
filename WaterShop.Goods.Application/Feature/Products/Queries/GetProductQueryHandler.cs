@@ -8,7 +8,7 @@ using WaterShop.Goods.Domain.Primitives;
 
 namespace WaterShop.Goods.Application.Feature.Products.Queries;
 
-internal sealed class GetProductQueryHandler : IQueryHandler<GetProductsQuery, Result<PageableData<ProductDTO>>>
+internal sealed class GetProductQueryHandler : IQueryHandler<GetProductsQuery, Result<PageableData<ProductDto>>>
 {
     private readonly ILogger<GetProductQueryHandler> _logger;
     private readonly IProductRepository _repository;
@@ -18,7 +18,7 @@ internal sealed class GetProductQueryHandler : IQueryHandler<GetProductsQuery, R
         _logger = logger;
         _repository = repository;
     }
-    public async Task<Result<PageableData<ProductDTO>>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PageableData<ProductDto>>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
     {
         try
         {
@@ -27,7 +27,7 @@ internal sealed class GetProductQueryHandler : IQueryHandler<GetProductsQuery, R
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error when getting pageable data, {pData}", request.PageableData);
-            return Result<PageableData<ProductDTO>>.Failure(new CriticalError());
+            return Result<PageableData<ProductDto>>.Failure(new CriticalError());
         }
     }
 }

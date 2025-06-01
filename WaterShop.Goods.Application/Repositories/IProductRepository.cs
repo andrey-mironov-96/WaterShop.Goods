@@ -5,5 +5,5 @@ namespace WaterShop.Goods.Application.Repositories;
 
 public interface IProductRepository
 {
-    public Task<PageableData<ProductDTO>> GetProducts(PageableData<ProductDTO> pData);
+    public Task<PageableData<ProductDto>> GetProducts(PageableData<ProductDto> pData);
 }
