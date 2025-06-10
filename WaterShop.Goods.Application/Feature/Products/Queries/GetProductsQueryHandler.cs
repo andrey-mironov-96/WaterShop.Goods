@@ -8,12 +8,12 @@ using WaterShop.Goods.Domain.Primitives;
 
 namespace WaterShop.Goods.Application.Feature.Products.Queries;
 
-internal sealed class GetProductQueryHandler : IQueryHandler<GetProductsQuery, Result<PageableData<ProductDto>>>
+internal sealed class GetProductsQueryHandler : IQueryHandler<GetProductsQuery, Result<PageableData<ProductDto>>>
 {
-    private readonly ILogger<GetProductQueryHandler> _logger;
+    private readonly ILogger<GetProductsQueryHandler> _logger;
     private readonly IProductRepository _repository;
 
-    public GetProductQueryHandler(ILogger<GetProductQueryHandler> logger, IProductRepository repository)
+    public GetProductsQueryHandler(ILogger<GetProductsQueryHandler> logger, IProductRepository repository)
     {
         _logger = logger;
         _repository = repository;

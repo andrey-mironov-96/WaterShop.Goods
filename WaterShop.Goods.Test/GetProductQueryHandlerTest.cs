@@ -116,5 +116,128 @@ public class GetProductQueryHandlerTest : BaseTest
         Assert.NotNull(responsePageableData.Value);
         Assert.Contains(responsePageableData.Value.Data, x => x.CreateAt <= date);
     }
-    
+
+    [Fact]
+    public async Task ShouldBeReturnProductsCreatedToday()
+    {
+        DateTime today = DateTime.Now;
+        const ushort page = 1;
+        const ushort pageSize = 1000;
+        PageableData<ProductDto> pageableData = new(page, pageSize)
+        {
+            Filter = new ProductFilter()
+            {
+                Filters = [
+                    new(){ Label = ProductFilter.BatchFilterLabels.BatchCreatedEqual, Value = today.ToString("dd.MM.yyyy")},
+                   
+                ]
+            }
+        };
+
+        GetProductsQuery query = new(pageableData);
+        var responsePageableData = await this.Mediator.Send(query);
+
+        Assert.NotNull(responsePageableData);
+        Assert.NotNull(responsePageableData.Value);
+        Assert.True(responsePageableData.IsSuccess);
+        Assert.Equal(page, responsePageableData.Value.Page);
+        Assert.Equal(pageSize, responsePageableData.Value.PageSize);
+        Assert.NotEqual(0u, responsePageableData.Value.Total);
+        Assert.NotEmpty(responsePageableData.Value.Data);
+        Assert.Contains(responsePageableData.Value.Data, value => value.CreateAt.Date == today.Date);
+    }
+
+    [Fact]
+    public async Task ShouldBeReturnProductsOfBatchNumberEqual_Batch_10()
+    {
+        const ushort page = 1;
+        const ushort pageSize = 1000;
+        const string batchNumber = "Batch_10";
+
+        PageableData<ProductDto> pageableData = new(page, pageSize)
+        {
+            Filter = new ProductFilter()
+            {
+                Filters = [
+                    new(){ Label = ProductFilter.BatchFilterLabels.BatchValue, Value = batchNumber},
+                ]
+            }
+        };
+
+        GetProductsQuery query = new(pageableData);
+        var responsePageableData = await this.Mediator.Send(query);
+
+        Assert.NotNull(responsePageableData);
+        Assert.NotNull(responsePageableData.Value);
+        Assert.True(responsePageableData.IsSuccess);
+        Assert.Equal(page, responsePageableData.Value.Page);
+        Assert.Equal(pageSize, responsePageableData.Value.PageSize);
+        Assert.NotEqual(0u, responsePageableData.Value.Total);
+        Assert.NotEmpty(responsePageableData.Value.Data);
+        Assert.Contains(responsePageableData.Value.Data, value => value.BatchNumber == batchNumber);
+    }
+
+    [Fact]
+    public async Task ShouldBeReturnProductsWithBrand_Dobry()
+    {
+        const ushort page = 1;
+        const ushort pageSize = 1000;
+        const string brandName = "Добрый";
+
+        PageableData<ProductDto> pageableData = new(page, pageSize)
+        {
+            Filter = new ProductFilter()
+            {
+                Filters = [
+                   new(){ Label = ProductFilter.BrandFilterLabels.ProductBrand, Value = brandName},
+                ]
+            }
+        };
+
+        GetProductsQuery query = new(pageableData);
+        var responsePageableData = await this.Mediator.Send(query);
+
+        Assert.NotNull(responsePageableData);
+        Assert.NotNull(responsePageableData.Value);
+        Assert.True(responsePageableData.IsSuccess);
+        Assert.Equal(page, responsePageableData.Value.Page);
+        Assert.Equal(pageSize, responsePageableData.Value.PageSize);
+        Assert.NotEqual(0u, responsePageableData.Value.Total);
+        Assert.NotEmpty(responsePageableData.Value.Data);
+        Assert.Contains(responsePageableData.Value.Data, value => value.Brand == brandName);
+    }
+
+    [Fact]
+    public async Task ShouldBeReturnProductsWithName_name_5()
+    {
+        const ushort page = 1;
+        const ushort pageSize = 1000;
+        const string productName = "name_5";
+        const uint totalCount = 1;
+
+        PageableData<ProductDto> pageableData = new(page, pageSize)
+        {
+            Filter = new ProductFilter()
+            {
+                Filters = [
+                   new(){ Label = ProductFilter.ProductFilterLabels.ProductName, Value = productName},
+                ]
+            }
+        };
+
+        GetProductsQuery query = new(pageableData);
+        var responsePageableData = await this.Mediator.Send(query);
+
+        Assert.NotNull(responsePageableData);
+        Assert.NotNull(responsePageableData.Value);
+        Assert.True(responsePageableData.IsSuccess);
+        Assert.Equal(page, responsePageableData.Value.Page);
+        Assert.Equal(pageSize, responsePageableData.Value.PageSize);
+        Assert.NotEqual(0u, responsePageableData.Value.Total);
+        Assert.NotEmpty(responsePageableData.Value.Data);
+        Assert.Equal(totalCount, responsePageableData.Value.Total);
+        Assert.Equal(responsePageableData.Value.Total, (uint)responsePageableData.Value.Data.Count());
+        Assert.Contains(responsePageableData.Value.Data, value => value.Name.EndsWith(productName));
+    }
+
 }

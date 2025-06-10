@@ -9,6 +9,7 @@ using WaterShop.Goods.Domain.Entities;
 using WaterShop.Goods.Domain.Mappers;
 using WaterShop.Goods.Domain.Primitives;
 using WaterShop.Goods.Infrastructure.Context;
+using WaterShop.Goods.Domain.Primitives.Filters;
 
 [assembly: InternalsVisibleTo("WaterShop.Goods.Test")]
 namespace WaterShop.Goods.Infrastructure.Repositories
@@ -32,13 +33,12 @@ namespace WaterShop.Goods.Infrastructure.Repositories
             AddFilters(ref query, pData);
 
             pData.Total = (uint)query.Count();
-
+            
             pData.Data = await query
                 .Skip(pData.GetSkipped())
                 .Take(pData.PageSize)
                 .Select(product => ProductMapper.ToDto(product)!).ToListAsync();
 
-            var x = _dbContext.ProductBatches.GroupBy(x => x.CreateAt).Select(x => x.Key);
             return pData;
         }
 
@@ -46,17 +46,17 @@ namespace WaterShop.Goods.Infrastructure.Repositories
         {
             if (pageableData.Filter != null)
             {
+                
                 query = pageableData.Filter.Filters.Aggregate(query, (current, filter) => filter.Label switch
                 {
-                    "batch_value" => current.Where(product => product.Batch.Value == filter.Value),
-                    "batch_created_fromOrEqual" => BatchCreatedFromOrEqual(current, filter.Value),
-                    "batch_created_toOrEqual" => BatchCreatedToOrEqual(current, filter.Value),
+                    ProductFilter.BatchFilterLabels.BatchValue => current.Where(product => product.Batch.Value == filter.Value),
+                    ProductFilter.BatchFilterLabels.BatchCreatedFromOrEqual => BatchCreatedFromOrEqual(current, filter.Value),
+                    ProductFilter.BatchFilterLabels.BatchCreatedToOrEqual => BatchCreatedToOrEqual(current, filter.Value),
+                    ProductFilter.BatchFilterLabels.BatchCreatedEqual => BatchCreatedEqual(current, filter.Value),
+                    ProductFilter.TypeFilterLabels.TypeValue => current.Where(product => product.Type.Value == filter.Value),
+                    ProductFilter.ProductFilterLabels.ProductName => current.Where(product =>filter.Value == product.Name.Value),
+                    ProductFilter.BrandFilterLabels.ProductBrand => current.Where(product => product.Brand.Value == filter.Value),
 
-                    "type_value" => current.Where(product => product.Type.Value == filter.Value),
-
-                    "product_name" => current.Where(product => EF.Functions.ILike(product.Name.Value, $"%{filter.Value}%")),
-
-                    "product_brand" => current.Where(product => product.Brand.Value == filter.Value),
                     _ => throw new ArgumentException("Unknow filter")
                 });
             }
@@ -73,6 +73,13 @@ namespace WaterShop.Goods.Infrastructure.Repositories
         {
             DateTime date = DateTimeExtensions.Parse(value);
             query = query.Where(product => date >= product.Batch.CreateAt.Date);
+            return query;
+        }
+
+        private static IQueryable<Product> BatchCreatedEqual(IQueryable<Product> query, string value)
+        {
+            DateTime date = DateTimeExtensions.Parse(value);
+            query = query.Where(product => date == product.Batch.CreateAt.Date);
             return query;
         }
     }
